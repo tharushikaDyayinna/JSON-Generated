@@ -13,7 +13,7 @@ model = genai.GenerativeModel('models/gemma-3-12b-it')
 
 # --- Streamlit UI ---
 st.set_page_config(page_title="Form JSON Generator", page_icon="📝", layout="centered")
-st.title("Smart System Form JSON Generator")
+st.title("Smart System Form Generator")
 st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
 
 user_input = st.text_area("✏️ Enter your system creation requirement : ", "", height=150)
