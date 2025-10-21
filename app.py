@@ -12,20 +12,20 @@ genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('models/gemma-3-12b-it')
 
 # --- Streamlit UI ---
-st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
-st.title("System Form JSON Generator")
+st.set_page_config(page_title="Form JSON Generator", page_icon="📝", layout="centered")
+st.title("Smart System Form JSON Generator")
 st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
 
-user_input = st.text_area("Enter your system creation requirement :", "", height=150)
+user_input = st.text_area("✏️ Enter your system creation requirement (e.g., 'A form for inventory tracking with fields for Item Name (text), Quantity (number), Unit Price (number), and a calculated Total Price.'):", "", height=150)
 
-if st.button("Generate JSON"):
+if st.button("🚀 Generate JSON"):
     if user_input.strip():
         
         # --- UPDATED JSON STRUCTURE EXAMPLE WITH FULL FIELD SCHEMA AND VARIOUS DATA TYPES ---
         json_structure_example = """{
             "formData": {
-                "entType": "T Department",
-                "formCat": "T Form",
+                "entType": "Real Smart",
+                "formCat": "Register",
                 "newformName": "PurchaseOrder", 
                 "frequency": "any",
                 "editable": 1,
@@ -83,7 +83,8 @@ if st.button("Generate JSON"):
                     "help_text": "Select the supplier from the list.",
                     "sum_func": "",
                     "countIf": "",
-                    "decimals": ""
+                    "decimals": "",
+                    "formName": "cart"
                 },
                 {
                     "data_name": "OrderDate",
@@ -190,7 +191,7 @@ if st.button("Generate JSON"):
         JSON Structure Example (Use this exact schema for every field and match the structure of fields like 'sequence' and 'options'):
         {json_structure_example}
 
-        **Important Note:** When the data_type is "calculation", ensure the formula uses {{formname}}.{{fieldname}} format.
+        **Important Note:** When the data_type is "calculation", ensure the formula uses the exact {{FormName}}.{{FieldName}} format. Use the form name specified in formData.newformName for calculations (e.g., 'PurchaseOrder').
         
         Generated JSON:
         """
