@@ -12,13 +12,13 @@ genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('models/gemma-3-12b-it')
 
 # --- Streamlit UI ---
-st.set_page_config(page_title="Form JSON Generator", page_icon="📝", layout="centered")
+st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
 st.title("Smart System Form JSON Generator")
 st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
 
-user_input = st.text_area("✏️ Enter your system creation requirement (e.g., 'A form for inventory tracking with fields for Item Name (text), Quantity (number), Unit Price (number), and a calculated Total Price.'):", "", height=150)
+user_input = st.text_area("Enter your system creation requirement:", "", height=150)
 
-if st.button("🚀 Generate JSON"):
+if st.button("Generate JSON"):
     if user_input.strip():
         
         # --- UPDATED JSON STRUCTURE EXAMPLE WITH FULL FIELD SCHEMA AND VARIOUS DATA TYPES ---
