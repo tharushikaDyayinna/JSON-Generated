@@ -16,7 +16,7 @@ st.set_page_config(page_title="Form JSON Generator", page_icon="📝", layout="c
 st.title("Smart System Form JSON Generator")
 st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
 
-user_input = st.text_area("✏️ Enter your system creation requirement (e.g., 'A form for inventory tracking with fields for Item Name (text), Quantity (number), Unit Price (number), and a calculated Total Price.'):", "", height=150)
+user_input = st.text_area("✏️ Enter your system creation requirement : ", "", height=150)
 
 if st.button("🚀 Generate JSON"):
     if user_input.strip():
