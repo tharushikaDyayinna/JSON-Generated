@@ -32,7 +32,7 @@ if st.button("🚀 Generate JSON"):
             "fieldsData": [
                 {"data_name": "EmployeeName", "data_type": "text", "attributes": "required"},
                 {"data_name": "EmployeeID", "data_type": "sequence", "prefix": "E", "digits": "3"},
-                {"data_name": "TotalValue", "data_type": "calculation", "calculation": "{Employee}.{Salary} * {Employee}.{DaysWorked}"}
+                {"data_name": "TotalValue", "data_type": "calculation", "calculation": "{Employee.Salary} * {Employee.DaysWorked}"}
             ]
         }"""
 
@@ -46,7 +46,18 @@ JSON Structure Example:
 Generated JSON:
 """
         response = model.generate_content(prompt)
-        st.subheader("✅ Generated JSON Output")
-        st.code(response.text, language="json")
+        generated_json_text = response.text
+
+        # Display the JSON
+        st.subheader("Generated JSON Output")
+        st.code(generated_json_text, language="json")
+
+        # Add Download Button
+        st.download_button(
+            label="Download JSON",
+            data=generated_json_text,
+            file_name="generated_form.json",
+            mime="application/json"
+        )
     else:
         st.warning("Please enter a requirement before clicking Generate.")
