@@ -190,7 +190,7 @@ if st.button("Generate JSON"):
         JSON Structure Example (Use this exact schema for every field and match the structure of fields like 'sequence' and 'options'):
         {json_structure_example}
 
-        **Important Note:** When the data_type is "calculation", ensure the formula uses the exact {FormName.FieldName} format. Use the form name specified in formData.newformName for calculations (e.g., 'PurchaseOrder').
+        **Important Note:** When the data_type is "calculation", ensure the formula uses {{formname}}.{{fieldname}} format.
         
         Generated JSON:
         """
