@@ -24,8 +24,8 @@ if st.button("Generate JSON"):
         # --- UPDATED JSON STRUCTURE EXAMPLE WITH FULL FIELD SCHEMA AND VARIOUS DATA TYPES ---
         json_structure_example = """{
             "formData": {
-                "entType": "Real Smart",
-                "formCat": "Register",
+                "entType": "T Department",
+                "formCat": "T Form",
                 "newformName": "PurchaseOrder", 
                 "frequency": "any",
                 "editable": 1,
