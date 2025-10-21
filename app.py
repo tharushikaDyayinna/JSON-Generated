@@ -12,20 +12,20 @@ genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('models/gemma-3-12b-it')
 
 # --- Streamlit UI ---
-st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
+st.set_page_config(page_title="Form JSON Generator", page_icon="📝", layout="centered")
 st.title("Smart System Form JSON Generator")
 st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
 
-user_input = st.text_area("Enter your system creation requirement:", "", height=150)
+user_input = st.text_area("✏️ Enter your system creation requirement (e.g., 'A form for inventory tracking with fields for Item Name (text), Quantity (number), Unit Price (number), and a calculated Total Price.'):", "", height=150)
 
-if st.button("Generate JSON"):
+if st.button("🚀 Generate JSON"):
     if user_input.strip():
         
         # --- UPDATED JSON STRUCTURE EXAMPLE WITH FULL FIELD SCHEMA AND VARIOUS DATA TYPES ---
         json_structure_example = """{
             "formData": {
-                "entType": "T Department",
-                "formCat": "T Form",
+                "entType": "Real Smart",
+                "formCat": "Register",
                 "newformName": "PurchaseOrder", 
                 "frequency": "any",
                 "editable": 1,
@@ -185,6 +185,8 @@ if st.button("Generate JSON"):
         prompt = f"""Generate a complete JSON object for the following system creation requirement.
         
         **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys like 'sorting_value', 'identifier', 'options_from', etc., even if their values are empty strings or 0. Populate the values based on the requirement, utilizing specific attributes (like 'prefix'/'digits' for sequence or 'defaultVal' for date) when appropriate for the field type.
+        
+        **SPECIAL INSTRUCTION FOR OPTIONS**: For any field with data_type: "options", you **MUST** include the "formName" key to specify the source form (e.g., 'cart', 'Users', 'Products').
         
         Requirement: {user_input}
         
