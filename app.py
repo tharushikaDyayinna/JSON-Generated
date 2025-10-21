@@ -16,7 +16,7 @@ st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="cente
 st.title("Smart System Form JSON Generator")
 st.markdown("Enter your system creation requirement below ")
 
-user_input = st.text_area("Enter your system creation requirement :", "", height=150)
+user_input = st.text_area(height=150)
 
 if st.button("Generate JSON"):
     if user_input.strip():
