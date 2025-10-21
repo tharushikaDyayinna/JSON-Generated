@@ -2,26 +2,23 @@ import streamlit as st
 import google.generativeai as genai
 import json
 
-# --- Configure your Gemini API key ---
+
 # NOTE: Replace with your actual key or use st.secrets in a real deployment
 GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
 genai.configure(api_key=GOOGLE_API_KEY)
 
-# --- Load Gemini model ---
-# Using gemma-3-12b-it as per original code
 model = genai.GenerativeModel('models/gemma-3-12b-it')
 
-# --- Streamlit UI ---
 st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
 st.title("Smart System Form JSON Generator")
-#st.markdown("Enter your system creation requirement below ")
+st.markdown("Enter your system creation requirement below ")
 
-user_input = st.text_area("Enter your system creation requirement:", "",height=150)
+user_input = st.text_area("", "",height=150)
 
 if st.button("Generate JSON"):
     if user_input.strip():
         
-        # --- UPDATED JSON STRUCTURE EXAMPLE WITH FULL FIELD SCHEMA AND VARIOUS DATA TYPES ---
+        # --- UPDATED JSON STRUCTURE EXAMPLE  ---
         json_structure_example = """{
             "formData": {
                 "entType": "T Department",
@@ -181,7 +178,7 @@ if st.button("Generate JSON"):
             ]
         }"""
         
-        # --- PROMPT INSTRUCTION IS UPDATED TO ENSURE ADHERENCE TO NEW SCHEMA ---
+        # --- PROMPT ---
         prompt = f"""Generate a complete JSON object for the following system creation requirement.
         
         **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys like 'sorting_value', 'identifier', 'options_from', etc., even if their values are empty strings or 0. Populate the values based on the requirement, utilizing specific attributes (like 'prefix'/'digits' for sequence or 'defaultVal' for date) when appropriate for the field type.
