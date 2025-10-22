@@ -2,28 +2,31 @@ import streamlit as st
 import google.generativeai as genai
 import json
 
-
+# --- Configure your Gemini API key ---
 # NOTE: Replace with your actual key or use st.secrets in a real deployment
 GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
 genai.configure(api_key=GOOGLE_API_KEY)
 
+# --- Load Gemini model ---
 model = genai.GenerativeModel('models/gemma-3-12b-it')
 
-st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
+# --- Streamlit UI ---
+st.set_page_config(page_title="Form JSON Generator", page_icon="📝", layout="centered")
 st.title("Smart System Form JSON Generator")
-st.markdown("Enter your system creation requirement below ")
+st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
 
-user_input = st.text_area("", "",height=150)
+user_input = st.text_area("✏️ Enter your system creation requirement (e.g., 'A form for inventory tracking with fields for Item Name (text), Quantity (number), Unit Price (number), and a calculated Total Price.'):", "", height=150)
 
-if st.button("Generate JSON"):
+if st.button("🚀 Generate JSON"):
     if user_input.strip():
         
-        # --- UPDATED JSON STRUCTURE EXAMPLE  ---
+        # --- UPDATED JSON STRUCTURE EXAMPLE WITH ADVANCED CALCULATION SYNTAX ---
+        # The calculation field now uses the complex cross-form fetching syntax as the example.
         json_structure_example = """{
             "formData": {
                 "entType": "T Department",
                 "formCat": "T Form",
-                "newformName": "PurchaseOrder", 
+                "newformName": "Invoice", 
                 "frequency": "any",
                 "editable": 1,
                 "deletable": 1,
@@ -32,7 +35,7 @@ if st.button("Generate JSON"):
             },
             "fieldsData": [
                 {
-                    "data_name": "PONumber",
+                    "data_name": "InvoiceID",
                     "data_type": "sequence",
                     "sorting_value": "1",
                     "identifier": 0,
@@ -49,22 +52,22 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "Auto-generated Purchase Order number.",
+                    "help_text": "Auto-generated Invoice ID.",
                     "sum_func": "",
                     "countIf": "",
                     "decimals": "0",
-                    "prefix": "PO",
+                    "prefix": "INV",
                     "sufix": "",
                     "digits": "5",
                     "replacer": "0",
                     "start_with": "1"
                 },
                 {
-                    "data_name": "SupplierName",
+                    "data_name": "CustomerName",
                     "data_type": "options",
                     "sorting_value": "2",
                     "identifier": 0,
-                    "options_from": "SuppliersEntity",
+                    "options_from": "CustomerEntity",
                     "fetch_function": "",
                     "calculation": "",
                     "defaultVal": "",
@@ -77,14 +80,14 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "Select the supplier from the list.",
+                    "help_text": "Select the customer from the list.",
                     "sum_func": "",
                     "countIf": "",
                     "decimals": "",
-                    "formName": "cart"
+                    "formName": "Customers"
                 },
                 {
-                    "data_name": "OrderDate",
+                    "data_name": "InvoiceDate",
                     "data_type": "date",
                     "sorting_value": "3",
                     "identifier": 0,
@@ -101,17 +104,17 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "The date the order was placed.",
+                    "help_text": "The date the invoice was issued.",
                     "sum_func": "",
                     "countIf": "",
                     "decimals": ""
                 },
                 {
-                    "data_name": "ItemDescription",
-                    "data_type": "text",
+                    "data_name": "ProductID",
+                    "data_type": "options",
                     "sorting_value": "4",
                     "identifier": 0,
-                    "options_from": "",
+                    "options_from": "ProductsEntity",
                     "fetch_function": "",
                     "calculation": "",
                     "defaultVal": "",
@@ -124,10 +127,11 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "Detailed description of the item.",
+                    "help_text": "Select the product being sold.",
                     "sum_func": "",
                     "countIf": "",
-                    "decimals": "0"
+                    "decimals": "",
+                    "formName": "Products"
                 },
                 {
                     "data_name": "Quantity",
@@ -147,19 +151,42 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "Number of units to order.",
+                    "help_text": "Number of units sold.",
                     "sum_func": "",
                     "countIf": "",
                     "decimals": "0"
                 },
                 {
-                    "data_name": "TotalAmount",
-                    "data_type": "calculation",
+                    "data_name": "UnitPrice",
+                    "data_type": "number",
                     "sorting_value": "6",
                     "identifier": 0,
                     "options_from": "",
                     "fetch_function": "",
-                    "calculation": "{PurchaseOrder.Quantity} * {PurchaseOrder.UnitPrice}",
+                    "calculation": "",
+                    "defaultVal": "",
+                    "features": "",
+                    "inherit": 0,
+                    "attributes": "required",
+                    "entityMethod": "",
+                    "entityOrLevel": "",
+                    "mapping": [],
+                    "keyMember": 0,
+                    "sumClass": "",
+                    "data_info": "",
+                    "help_text": "Price per unit.",
+                    "sum_func": "",
+                    "countIf": "",
+                    "decimals": "2"
+                },
+                {
+                    "data_name": "LineTotal",
+                    "data_type": "calculation",
+                    "sorting_value": "7",
+                    "identifier": 0,
+                    "options_from": "",
+                    "fetch_function": "",
+                    "calculation": "{GoodsReceived^QuantityReceived^ProductID,ProductID} * {Invoice.UnitPrice}",
                     "defaultVal": "",
                     "features": "",
                     "inherit": 0,
@@ -170,7 +197,7 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "Calculated total amount.",
+                    "help_text": "Calculates line total using fetched quantity from GoodsReceived and local UnitPrice.",
                     "sum_func": "",
                     "countIf": "",
                     "decimals": "2"
@@ -178,20 +205,26 @@ if st.button("Generate JSON"):
             ]
         }"""
         
-        # --- PROMPT ---
+        # --- PROMPT INSTRUCTION IS UPDATED TO ENSURE ADHERENCE TO NEW SCHEMA AND FETCH LOGIC ---
         prompt = f"""Generate a complete JSON object for the following system creation requirement.
         
-        **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys like 'sorting_value', 'identifier', 'options_from', etc., even if their values are empty strings or 0. Populate the values based on the requirement, utilizing specific attributes (like 'prefix'/'digits' for sequence or 'defaultVal' for date) when appropriate for the field type.
+        **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys.
         
-        **SPECIAL INSTRUCTION FOR OPTIONS**: For any field with data_type: "options", you **MUST** include the "formName" key to specify the source form (e.g., 'cart', 'Users', 'Products').
+        **SPECIAL INSTRUCTION FOR OPTIONS**: For any field with data_type: "options", you **MUST** include the "formName" key to specify the source form.
         
+        **SPECIAL INSTRUCTION FOR FETCH_FUNCTION**: If the user asks to fetch or look up data from another form into a static field, use the `fetch_function` key with the following syntax:
+        `fm^fd^rf1,tf1,lo1 and rf2,tf2,lo2 ^ Entity Level Type`
+        Where fm=form name, fd=field name of value needed, rfx=reference field in current form, tfx=target field in fm, lox=logic (EQUAL, GREATER, LESS, etc.).
+
+        **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations can now use two formats. Use the complex format when a value needs to be fetched from another form within the calculation:
+        1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
+        2. Complex cross-form reference (to fetch values): **{{SourceForm^SourceField^MappingField,CurrentValue}}**. Use this structure when fetching a value from another form for the calculation (e.g., {{GoodsReceived^QuantityReceived^GRNLineID,CurrentLine}}).
+
         Requirement: {user_input}
         
-        JSON Structure Example (Use this exact schema for every field and match the structure of fields like 'sequence' and 'options'):
+        JSON Structure Example (Use this exact schema for every field and match the structure of fields like 'sequence', 'options', and 'calculation'):
         {json_structure_example}
 
-        **Important Note:** When the data_type is "calculation", ensure the formula uses the exact {{FormName}}.{{FieldName}} format. Use the form name specified in formData.newformName for calculations (e.g., 'PurchaseOrder').
-        
         Generated JSON:
         """
         
