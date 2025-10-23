@@ -17,7 +17,6 @@ user_input = st.text_area("Enter your system creation requirement :", "", height
 if st.button("Generate JSON"):
     if user_input.strip():
         
-        # --- UPDATED JSON STRUCTURE EXAMPLE WITH ADVANCED CALCULATION SYNTAX ---
         # The calculation field now uses the complex cross-form fetching syntax as the example.
         json_structure_example = """{
             "formData": {
@@ -202,7 +201,7 @@ if st.button("Generate JSON"):
             ]
         }"""
         
-        # --- PROMPT INSTRUCTION IS UPDATED TO ENSURE ADHERENCE TO NEW SCHEMA AND FETCH LOGIC ---
+        # --- PROMPT INSTRUCTION  ---
         prompt = f"""Generate a complete JSON object for the following system creation requirement.
         
         **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys.
