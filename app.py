@@ -2,15 +2,12 @@ import streamlit as st
 import google.generativeai as genai
 import json
 
-# --- Configure your Gemini API key ---
 # NOTE: Replace with your actual key or use st.secrets in a real deployment
 GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
 genai.configure(api_key=GOOGLE_API_KEY)
 
-# --- Load Gemini model ---
 model = genai.GenerativeModel('models/gemma-3-12b-it')
 
-# --- Streamlit UI ---
 st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
 st.title("Smart System Form JSON Generator")
 #st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
