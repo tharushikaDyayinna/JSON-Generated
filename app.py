@@ -249,7 +249,7 @@ if st.button("Generate JSON"):
 
         1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
         
-        2. Complex cross-form reference (to fetch values and calculate): **{{SourceForm^SourceField^MappingForm.MappingField,CurrentForm.CurrentField}}** - **The expression must match the format in the LineTotal example** (e.g., {{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,RequestForm.CurrentLine,=} * {PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,RequestForm.CurrentLine,=}}).
+        2. Complex cross-form reference (to fetch values and calculate): **{{SourceForm^SourceField^MappingField,CurrentValue,Operator}}** - **The expression must use double braces and match the LineTotal example format** (e.g., {{{{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,RequestForm.CurrentLine,=}}}} * {{{{PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,RequestForm.CurrentLine,=}}}}).
         
         Requirement: {user_input}
         
