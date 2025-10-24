@@ -2,14 +2,48 @@ import streamlit as st
 import google.generativeai as genai
 import json
 
+# NOTE: The provided key "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI" is a placeholder/invalid
+# and will likely need to be replaced with a valid key for production use.
 GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
 genai.configure(api_key=GOOGLE_API_KEY)
 
-model = genai.GenerativeModel('models/gemma-3-12b-it')
+# Using gemini-2.5-flash-preview-09-2025 as it is often better for structured JSON generation
+# and is a reliable, fast model.
+model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
-st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
+st.set_page_config(page_title="Form JSON Generator", page_icon="⚙️", layout="centered")
 st.title("Smart System Form JSON Generator")
-#st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
+st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
+
+# --- NEW SYNTAX DOCUMENTATION BLOCK ---
+with st.expander("View Supported Syntax (Crucial for Prompting Gemini)"):
+    st.markdown("""
+        The backend system uses a specialized, structured syntax for advanced lookups and calculations.
+
+        ### 1. Fetch Function Syntax (`fetch_function` key)
+        Use this syntax for fetching a single value into a static field (as a single string):
+        `fm^fd^rf1,tf1,lo1 and rf2,tf2,lo2 ^ Entity Level Type`
+
+        | Component | Description | Special Values for `tf` |
+        | :--- | :--- | :--- |
+        | **fm** | **Form Name** of which the value is required. | |
+        | **fd** | **Field Name** of the value required from the target form. | |
+        | **rf** | **Reference Field** in the current form for mapping. | |
+        | **tf** | **Target Field** ID in the target form for mapping. | `@constant` (e.g., `@planned`), `@entity`, `@user`, `@today` |
+        | **lo** | **Logical Operation** used for comparison. | `=`, `<`, `>`, `<=`, `>=` |
+        | **Entity Level Type** | Defines the scope of the search. | `ascendant`, `siblings` |
+        
+        * **`ascendant`**: Search Ascendant entities or the current entity.
+        * **`siblings`**: Search Sibling entities (or the current entity).
+
+        ---
+
+        ### 2. Calculation Syntax (`calculation` key)
+        
+        * **Simple internal reference:** `{{FormName.FieldName}}` (e.g., `{{Invoice.Quantity}} * {{Invoice.Price}}`)
+        * **Complex cross-form reference:** Use the exact format demonstrated in the `LineTotal` example in the JSON schema.
+    """)
+# ---------------------------------------
 
 user_input = st.text_area("Enter your system creation requirement :", "", height=150)
 
@@ -192,7 +226,7 @@ if st.button("Generate JSON"):
                     "keyMember": 0,
                     "sumClass": "",
                     "data_info": "",
-                    "help_text": "Calculates line total using fetched quantity from GoodsReceived and local UnitPrice.",
+                    "help_text": "Calculates line total using fetched quantity and unit price.",
                     "sum_func": "",
                     "countIf": "",
                     "decimals": "2"
@@ -200,21 +234,22 @@ if st.button("Generate JSON"):
             ]
         }"""
         
-        # --- PROMPT INSTRUCTION  ---
+        # --- CORRECTED PROMPT INSTRUCTION ---
         prompt = f"""Generate a complete JSON object for the following system creation requirement.
-        
+
         **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys.
-        
+
         **SPECIAL INSTRUCTION FOR OPTIONS**: For any field with data_type: "options", you **MUST** include the "formName" key to specify the source form.
-        
+
         **SPECIAL INSTRUCTION FOR FETCH_FUNCTION**: If the user asks to fetch or look up data from another form into a static field, use the `fetch_function` key with the following syntax:
         `fm^fd^rf1,tf1,lo1 and rf2,tf2,lo2 ^ Entity Level Type`
         Where fm=form name, fd=field name of value needed, rfx=reference field in current form, tfx=target field in fm, lox=logic (EQUAL, GREATER, LESS, etc.).
 
-        **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations can now use two formats. Use the complex format when a value needs to be fetched from another form within the calculation:
+        **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations must use one of the following two formats. Use the complex format when a value needs to be fetched from another form within the calculation.
 
         1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
-        2. Complex cross-form reference (to fetch values): **{{SourceForm^SourceField^MappingField,CurrentValue}}**. Use this structure when fetching a value from another form for the calculation (e.g., {{GoodsReceived^QuantityReceived^GRNLineID,CurrentLine}}).
+        
+        2. Complex cross-form reference (to fetch values and calculate): **{{SourceForm^SourceField^MappingForm.MappingField,CurrentForm.CurrentField}}** - **The expression must match the format in the LineTotal example** (e.g., {{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,RequestForm.CurrentLine,=} * {PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,RequestForm.CurrentLine,=}}).
         
         Requirement: {user_input}
         
