@@ -11,39 +11,9 @@ genai.configure(api_key=GOOGLE_API_KEY)
 # and is a reliable, fast model.
 model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
-st.set_page_config(page_title="Form JSON Generator", page_icon="⚙️", layout="centered")
+st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
 st.title("Smart System Form JSON Generator")
 st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
-
-# --- NEW SYNTAX DOCUMENTATION BLOCK ---
-with st.expander("View Supported Syntax (Crucial for Prompting Gemini)"):
-    st.markdown("""
-        The backend system uses a specialized, structured syntax for advanced lookups and calculations.
-
-        ### 1. Fetch Function Syntax (`fetch_function` key)
-        Use this syntax for fetching a single value into a static field (as a single string):
-        `fm^fd^rf1,tf1,lo1 and rf2,tf2,lo2 ^ Entity Level Type`
-
-        | Component | Description | Special Values for `tf` |
-        | :--- | :--- | :--- |
-        | **fm** | **Form Name** of which the value is required. | |
-        | **fd** | **Field Name** of the value required from the target form. | |
-        | **rf** | **Reference Field** in the current form for mapping. | |
-        | **tf** | **Target Field** ID in the target form for mapping. | `@constant` (e.g., `@planned`), `@entity`, `@user`, `@today` |
-        | **lo** | **Logical Operation** used for comparison. | `=`, `<`, `>`, `<=`, `>=` |
-        | **Entity Level Type** | Defines the scope of the search. | `ascendant`, `siblings` |
-        
-        * **`ascendant`**: Search Ascendant entities or the current entity.
-        * **`siblings`**: Search Sibling entities (or the current entity).
-
-        ---
-
-        ### 2. Calculation Syntax (`calculation` key)
-        
-        * **Simple internal reference:** `{{FormName.FieldName}}` (e.g., `{{Invoice.Quantity}} * {{Invoice.Price}}`)
-        * **Complex cross-form reference:** Use the exact format demonstrated in the `LineTotal` example in the JSON schema.
-    """)
-# ---------------------------------------
 
 user_input = st.text_area("Enter your system creation requirement :", "", height=150)
 
