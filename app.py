@@ -2,7 +2,6 @@ import streamlit as st
 import google.generativeai as genai
 import json
 
-# NOTE: Replace with your actual key or use st.secrets in a real deployment
 GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
 genai.configure(api_key=GOOGLE_API_KEY)
 
@@ -182,7 +181,7 @@ if st.button("Generate JSON"):
                     "identifier": 0,
                     "options_from": "",
                     "fetch_function": "",
-                    "calculation": "{GoodsReceived^QuantityReceived^ProductID,ProductID} * {Invoice.UnitPrice}",
+                    "calculation": "{GoodsReceived^QuantityReceived^ProductID,ProductID,=} * {Invoice.UnitPrice}",
                     "defaultVal": "",
                     "features": "",
                     "inherit": 0,
