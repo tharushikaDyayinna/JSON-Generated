@@ -204,7 +204,7 @@ if st.button("Generate JSON"):
         prompt = f"""Generate a complete JSON object for the following system creation requirement.
 
         **CRITICAL INSTRUCTION**: Every object generated within the "fieldsData" array MUST strictly adhere to the full structure provided in the JSON Structure Example, including all keys.
-
+        **MANDATORY**: The value for the `help_text` key MUST ALWAYS be an empty string (`""`) for ALL fields.
         **SPECIAL INSTRUCTION FOR OPTIONS**: For any field with data_type: "options", you **MUST** include the "formName" key to specify the source form.
 
         **SPECIAL INSTRUCTION FOR FETCH_FUNCTION**: If the user asks to fetch or look up data from another form into a static field, use the `fetch_function` key with the following syntax:
