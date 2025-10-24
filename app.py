@@ -9,7 +9,7 @@ model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
 st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
 st.title("Smart System Form JSON Generator")
-st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure** automatically using Gemini.")
+#st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure**.")
 
 user_input = st.text_area("Enter your system creation requirement :", "", height=150)
 
