@@ -2,13 +2,9 @@ import streamlit as st
 import google.generativeai as genai
 import json
 
-# NOTE: The provided key "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI" is a placeholder/invalid
-# and will likely need to be replaced with a valid key for production use.
 GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
 genai.configure(api_key=GOOGLE_API_KEY)
 
-# Using gemini-2.5-flash-preview-09-2025 as it is often better for structured JSON generation
-# and is a reliable, fast model.
 model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
 st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
