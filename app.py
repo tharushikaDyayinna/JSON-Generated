@@ -212,9 +212,10 @@ if st.button("Generate JSON"):
         Where fm=form name, fd=field name of value needed, rfx=reference field in current form, tfx=target field in fm, lox=logic (EQUAL, GREATER, LESS, etc.).
 
         **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations can now use two formats. Use the complex format when a value needs to be fetched from another form within the calculation:
+
+        1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
+        2. Complex cross-form reference (to fetch values): **{{SourceForm^SourceField^MappingField,CurrentValue}}**. Use this structure when fetching a value from another form for the calculation (e.g., {{GoodsReceived^QuantityReceived^GRNLineID,CurrentLine}}).
         
-1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
-2. Complex cross-form reference (to fetch values): **{{SourceForm^SourceField^MappingForm.MappingField,CurrentForm.CurrentField}}**. Use this structure when fetching a value from another form for the calculation (e.g., {GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,RequestForm.CurrentLine,=} * {PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,RequestForm.CurrentLine,=}).
         Requirement: {user_input}
         
         JSON Structure Example (Use this exact schema for every field and match the structure of fields like 'sequence', 'options', and 'calculation'):
