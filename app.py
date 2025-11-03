@@ -1,17 +1,17 @@
 import streamlit as st
 import google.generativeai as genai
 import json
-import os
-from dotenv import load_dotenv
+#import os
+#from dotenv import load_dotenv
 
-load_dotenv()
+#load_dotenv()
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=GOOGLE_API_KEY)
-
-
-#GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
+#GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 #genai.configure(api_key=GOOGLE_API_KEY)
+
+
+GOOGLE_API_KEY = "AIzaSyDH1gjDkBreFvDT3KcRb2TFJ1pApas-laI"  
+genai.configure(api_key=GOOGLE_API_KEY)
 
 model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
