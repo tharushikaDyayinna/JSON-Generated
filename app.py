@@ -15,7 +15,7 @@ genai.configure(api_key=GOOGLE_API_KEY)
 
 model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
-st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
+st.set_page_config(page_title="Form JSON Generator", page_icon="https://th.bing.com/th/id/R.8e3167eadf176810296b5033d5ca2a11?rik=AQPAlrLctXvnRQ&riu=http%3a%2f%2fneedlu.com%2fwebImage%2flogo_needlu.png&ehk=XkYxPL2LZxvEOfFcspsDPCXio604RYrpcEW%2fnAlJaCk%3d&risl=&pid=ImgRaw&r=0", layout="centered")
 st.title("Smart System Form JSON Generator")
 
 # --- ADDED CHAT INTERFACE SECTION ---
@@ -55,9 +55,9 @@ if st.button("Generate JSON") or st.session_state.get("trigger_generation", Fals
         # The calculation field now uses the complex cross-form fetching syntax as the example.
         json_structure_example = """{
             "formData": {
-                "entType": "T Department",
-                "formCat": "T Form",
-                "newformName": "Invoice", 
+                "entityType": "T Department",
+                "formCategory": "T Form",
+                "formName": "Invoice", 
                 "frequency": "any",
                 "editable": 1,
                 "deletable": 1,
