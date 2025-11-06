@@ -15,7 +15,7 @@ genai.configure(api_key=GOOGLE_API_KEY)
 
 model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
-st.set_page_config(page_title="Form JSON Generator", page_icon="https://th.bing.com/th/id/R.8e3167eadf176810296b5033d5ca2a11?rik=AQPAlrLctXvnRQ&riu=http%3a%2f%2fneedlu.com%2fwebImage%2flogo_needlu.png&ehk=XkYxPL2LZxvEOfFcspsDPCXio604RYrpcEW%2fnAlJaCk%3d&risl=&pid=ImgRaw&r=0", layout="centered")
+st.set_page_config(page_title="Form JSON Generator", page_icon="https://www.needlu.com/webImage/needluLogoV.png", layout="centered")
 st.title("Smart System Form JSON Generator")
 
 # --- ADDED CHAT INTERFACE SECTION ---
@@ -217,7 +217,7 @@ if st.button("Generate JSON") or st.session_state.get("trigger_generation", Fals
                     "identifier": 0,
                     "options_from": "",
                     "fetch_function": "",
-                    "calculation": "{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,RequestForm.CurrentLine,=} * {PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,RequestForm.CurrentLine,=}",
+                    "calculation": "{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,Invoice.ProductID,=} * {PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,Invoice.ProductID,=}",
                     "defaultVal": "",
                     "features": "",
                     "inherit": 0,
@@ -251,7 +251,7 @@ if st.button("Generate JSON") or st.session_state.get("trigger_generation", Fals
 
         1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
         
-        2. Complex cross-form reference (to fetch values and calculate): **{{SourceForm^SourceField^MappingField,CurrentValue,Operator}}** - **The expression must use double braces and match the LineTotal example format** (e.g., {{{{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,RequestForm.CurrentLine,=}}}} * {{{{PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,RequestForm.CurrentLine,=}}}}).
+        2. Complex cross-form reference (to fetch values and calculate): **{{SourceForm^SourceField^MappingField,CurrentValue,Operator}}** - **The expression must use double braces and match the LineTotal example format** (e.g., {{{{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,Invoice.ProductID,=}}}} * {{{{PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,Invoice.ProductID,=}}}}).
         
         Requirement: {user_input}
         
