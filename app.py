@@ -247,12 +247,19 @@ if st.button("Generate JSON") or st.session_state.get("trigger_generation", Fals
         `fm^fd^rf1,tf1,lo1 and rf2,tf2,lo2 ^ Entity Level Type`
         Where fm=form name, fd=field name of value needed, rfx=reference field in current form, tfx=target field in fm, lox=logic (EQUAL, GREATER, LESS, etc.).
 
-        **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations must use one of the following two formats. Use the complex format when a value needs to be fetched from another form within the calculation.
+       **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations must use one of the following two formats.  
+        Use the complex format when a value needs to be fetched from another form within the calculation.
 
-        1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
-        
-        2. Complex cross-form reference (to fetch values and calculate): **{{SourceForm^SourceField^MappingField,CurrentValue,Operator}}** - **The expression must use one brace and match the LineTotal example format** (e.g., {{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,Invoice.ProductID,=}} * {{PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,Invoice.ProductID,=}}).
-        
+        1. Simple internal reference: **{{FormName.FieldName}}**  
+       (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
+
+        2. Complex cross-form reference (to fetch values and calculate):  
+       **{{SourceForm^SourceField^MappingField,CurrentValue,Operator}}** —  
+         The entire formula must be written as a **single JSON string** (no + signs or concatenation between strings).  
+       The operator between expressions can be **+, -, *, or /** depending on the mathematical logic required.  
+       Use this structure exactly:  
+       (e.g., {{GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,Invoice.ProductID,=}} * {{PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,Invoice.ProductID,=}})
+
         Requirement: {user_input}
         
         JSON Structure Example (Use this exact schema for every field and match the structure of fields like 'sequence', 'options', and 'calculation'):
