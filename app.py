@@ -249,7 +249,7 @@ if st.button("Generate JSON") or st.session_state.get("trigger_generation", Fals
 
         **IMPORTANT INSTRUCTION FOR CALCULATION**: Calculations must use one of the following two formats. Use the complex format when a value needs to be fetched from another form within the calculation.
 
-        1. Simple internal reference: **{FormName.FieldName}** (e.g., {Invoice.Quantity} * {Invoice.Price})
+        1. Simple internal reference: **{{FormName.FieldName}}** (e.g., {{Invoice.Quantity}} * {{Invoice.Price}})
         
         2. Complex cross-form reference (to fetch values and calculate): **{SourceForm^SourceField^MappingField,CurrentValue,Operator}** - **The expression must use one brace and match the LineTotal example format** (e.g., {GoodsReceived^QuantityReceived^GoodsReceived.GRNLineID,Invoice.ProductID,=} * {PurchaseOrder^UnitPrice^PurchaseOrder.POLineID,Invoice.ProductID,=}).
         
