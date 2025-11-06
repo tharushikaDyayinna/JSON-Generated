@@ -17,11 +17,39 @@ model = genai.GenerativeModel('gemini-2.5-flash-preview-09-2025')
 
 st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="centered")
 st.title("Smart System Form JSON Generator")
-#st.markdown("Enter your system creation requirement below, and this app will generate a **complete, detailed JSON structure**.")
 
+# --- ADDED CHAT INTERFACE SECTION ---
+st.subheader("💬 Chat Interface")
+
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
+
+# Display chat history
+for message in st.session_state["messages"]:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# Chat input area
+if prompt := st.chat_input("Enter your requirement or update..."):
+    # Save user message
+    st.session_state["messages"].append({"role": "user", "content": prompt})
+
+    # Store prompt as the input to reuse in the original code section
+    user_input = prompt
+    st.session_state["last_input"] = user_input
+
+    # Trigger the same logic as the original Generate button
+    st.session_state["trigger_generation"] = True
+
+    st.rerun()
+
+# --- ORIGINAL APP LOGIC (UNCHANGED) ---
 user_input = st.text_area("Enter your system creation requirement :", "", height=150)
 
-if st.button("Generate JSON"):
+if st.button("Generate JSON") or st.session_state.get("trigger_generation", False):
+    if st.session_state.get("last_input"):
+        user_input = st.session_state["last_input"]
+
     if user_input.strip():
         
         # The calculation field now uses the complex cross-form fetching syntax as the example.
@@ -265,7 +293,11 @@ if st.button("Generate JSON"):
                 file_name="generated_form.json",
                 mime="application/json"
             )
-            
+
+            # Add assistant response in chat view
+            st.session_state["messages"].append({"role": "assistant", "content": "✅ JSON generated successfully."})
+            st.session_state["trigger_generation"] = False
+
         except Exception as e:
             st.error(f"An error occurred during API call: {e}")
 
