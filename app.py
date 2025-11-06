@@ -19,7 +19,7 @@ st.set_page_config(page_title="Form JSON Generator", page_icon="", layout="cente
 st.title("Smart System Form JSON Generator")
 
 # --- ADDED CHAT INTERFACE SECTION ---
-st.subheader("💬 Chat Interface")
+st.subheader("Chat Interface")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
